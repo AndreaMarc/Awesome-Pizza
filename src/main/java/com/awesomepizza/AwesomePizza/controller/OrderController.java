@@ -27,6 +27,12 @@ public class OrderController {
         return orderRepository.findAll();
     }
 
+    // GET - Ordini evasi
+    @GetMapping("/status/2")
+    public List<Order> getOrdersByStatus() {
+        return orderRepository.findByStatus(2);
+    }
+
     // POST - Crea un nuovo ordine
     @PostMapping("/create")
     public Order createOrder(@RequestBody CreateOrderRequest request) {
@@ -58,6 +64,18 @@ public class OrderController {
 
         return orderRepository.save(order);
     }
+
+    // PUT - Aggiorna lo stato di un ordine
+    @PutMapping("/update-status/{id}")
+    public Order updateOrderStatus(@PathVariable Long id, @RequestParam Integer status) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Ordine non trovato con ID: " + id));
+
+        order.setStatus(status);
+
+        return orderRepository.save(order);
+    }
+
 
     // DELETE - Cancella un ordine
     @DeleteMapping("/{id}")
