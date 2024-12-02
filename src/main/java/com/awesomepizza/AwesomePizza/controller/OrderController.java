@@ -29,7 +29,6 @@ public class OrderController {
     // POST - Crea un nuovo ordine
     @PostMapping
     public Order createOrder(@RequestBody Order order) {
-        // Facciamo il salvataggio automatico di ogni pizza
         order.setPizzas(pizzaRepository.findAllById(
             order.getPizzas().stream().map(Pizza::getId).toList()
         ));
