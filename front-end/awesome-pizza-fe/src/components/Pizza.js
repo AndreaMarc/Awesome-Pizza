@@ -9,7 +9,7 @@ const Pizza = () => {
   const [editedPizza, setEditedPizza] = useState({ id: null, description: '' });
   const [message, setMessage] = useState('');
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const [openDialog, setOpenDialog] = useState(false); // Per aprire il dialogo di modifica
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     const fetchPizzas = async () => {
@@ -55,7 +55,7 @@ const Pizza = () => {
       setEditedPizza({ id: null, description: '' });
       setMessage('Pizza aggiornata con successo!');
       setOpenSnackbar(true);
-      setOpenDialog(false); // Chiude il dialogo dopo l'aggiornamento
+      setOpenDialog(false);
     } catch (error) {
       setMessage('Errore durante l\'aggiornamento della pizza.');
       setOpenSnackbar(true);
@@ -76,11 +76,11 @@ const Pizza = () => {
 
   const handleOpenDialog = (pizza) => {
     setEditedPizza({ id: pizza.id, description: pizza.description });
-    setOpenDialog(true); // Mostra il dialogo per la modifica
+    setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false); // Chiude il dialogo senza salvare
+    setOpenDialog(false);
   };
 
   return (
