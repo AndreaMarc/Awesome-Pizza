@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import com.awesomepizza.AwesomePizza.entity.Order;
 import com.awesomepizza.AwesomePizza.entity.Pizza;
 import com.awesomepizza.AwesomePizza.model.CreateOrderRequest;
+import com.awesomepizza.AwesomePizza.model.OrderModel;
 import com.awesomepizza.AwesomePizza.repository.OrderRepository;
 import com.awesomepizza.AwesomePizza.repository.PizzaRepository;
 
@@ -53,17 +54,18 @@ public class OrderController {
 
     // PUT - Aggiorna un ordine
     @PutMapping("/{id}")
-    public Order updateOrder(@PathVariable Long id, @RequestBody Order orderDetails) {
+    public Order updateOrder(@PathVariable Long id, @RequestBody OrderModel orderDetails) {
         Order order = orderRepository.findById(id).orElseThrow();
-
+    
+        List<Pizza> pizzas = pizzaRepository.findAllById(orderDetails.getPizzas()); 
+    
         order.setStatus(orderDetails.getStatus());
         order.setNickname(orderDetails.getNickname());
-        order.setPizzas(pizzaRepository.findAllById(
-            orderDetails.getPizzas().stream().map(Pizza::getId).toList()
-        ));
-
+        order.setPizzas(pizzas);
+    
         return orderRepository.save(order);
     }
+    
 
     // PUT - Aggiorna lo stato di un ordine
     @PutMapping("/update-status/{id}")

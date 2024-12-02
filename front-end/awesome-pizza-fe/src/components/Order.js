@@ -114,7 +114,7 @@ const Order = () => {
       ...selectedOrder,
       nickname,
       status,
-      pizzas: pizzaIds,
+      pizzas: pizzaIds, 
     };
 
     try {
@@ -127,7 +127,8 @@ const Order = () => {
       setMessage('Errore durante l\'aggiornamento dell\'ordine.');
       setOpenSnackbar(true);
     }
-  };
+};
+
 
   const handleCreateOrder = async () => {
     if (!nickname || !status || selectedPizzas.length === 0) {
