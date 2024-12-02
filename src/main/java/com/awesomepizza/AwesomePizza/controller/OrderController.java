@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 
 import com.awesomepizza.AwesomePizza.entity.Order;
 import com.awesomepizza.AwesomePizza.entity.Pizza;
+import com.awesomepizza.AwesomePizza.model.CreateOrderRequest;
 import com.awesomepizza.AwesomePizza.repository.OrderRepository;
 import com.awesomepizza.AwesomePizza.repository.PizzaRepository;
 
@@ -27,13 +28,22 @@ public class OrderController {
     }
 
     // POST - Crea un nuovo ordine
-    @PostMapping
-    public Order createOrder(@RequestBody Order order) {
-        order.setPizzas(pizzaRepository.findAllById(
-            order.getPizzas().stream().map(Pizza::getId).toList()
-        ));
-        return orderRepository.save(order);
+    @PostMapping("/create")
+    public Order createOrder(@RequestBody CreateOrderRequest request) {
+        List<Pizza> pizzas = pizzaRepository.findAllById(request.getPizzaIds());
+    
+        if (pizzas.size() != request.getPizzaIds().size()) {
+            throw new IllegalArgumentException("Uno o più ID delle pizze non sono validi");
+        }
+    
+        Order newOrder = new Order();
+        newOrder.setStatus(request.getStatus());
+        newOrder.setNickname(request.getNickname());
+        newOrder.setPizzas(pizzas);
+    
+        return orderRepository.save(newOrder);
     }
+    
 
     // PUT - Aggiorna un ordine
     @PutMapping("/{id}")
