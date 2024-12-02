@@ -51,7 +51,7 @@ export const updateOrderStatus = async (id, status) => {
 
 export const updateOrderDetails = async (id, orderDetails) => {
   try {
-    const response = await api.put(`/api/orders/update-order/${id}`, orderDetails);
+    const response = await api.put(`/api/orders/${id}`, orderDetails);
 
     return response.data;
   } catch (error) {
